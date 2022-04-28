@@ -1,9 +1,9 @@
-// Initialize scores outside of playRound function so they can be used outside of that function
+// Initialize scores outside of playOneRound function so they can be used outside of that function
 let playerScore = 0;
 let computerScore = 0;
 
 // Randomly choose rock, paper or scissors for computer
-function computerPlay() {
+function getComputerChoice() {
     const random = Math.floor(Math.random() * 3);
     const choices = ['rock', 'paper', 'scissors'];
     const randChoice = choices[random];
@@ -11,7 +11,7 @@ function computerPlay() {
 }
 
 // Gets players choice of rock, paper or scissors
-function playerChoice() {
+function getPlayerChoice() {
 
     let choice = prompt('Rock, Paper or Scissors?').toLowerCase();
 
@@ -22,8 +22,8 @@ function playerChoice() {
     return choice;   
 }
 
-// Plays 1 round of rock, paper, scissors and returns a win, lose or tie string and adds 1 point to either the player or computer's score there was a winner.
-function playRound(playerSelection, computerSelection) {
+// Plays 1 round of rock, paper, scissors and returns a win, lose or tie string and adds 1 point to either the player or computer's score if there was a winner.
+function playOneRound(playerSelection, computerSelection) {
 
     playerSelection = playerSelection[0].toUpperCase() + playerSelection.slice(1);
     computerSelection = computerSelection[0].toUpperCase() + computerSelection.slice(1);
@@ -33,9 +33,9 @@ function playRound(playerSelection, computerSelection) {
     }
 
     else if ((playerSelection === 'Rock' && computerSelection === "Scissors") ||
-        (playerSelection === 'Paper' && computerSelection === 'Rock') ||
-        (playerSelection === 'Scissors' && computerSelection === 'Paper')) {
-            playerScore++;
+            (playerSelection === 'Paper' && computerSelection === 'Rock') ||
+            (playerSelection === 'Scissors' && computerSelection === 'Paper')) {
+                playerScore++;
             return `You Win! ${playerSelection} beats ${computerSelection}.`;
         }
 
@@ -50,7 +50,7 @@ function game() {
     let rounds = +prompt('How many rounds would you like to play?');
 
     for (let i = 0; i < rounds; i++) {
-       console.log(`Round ${i+1}: `, playRound(playerChoice(), computerPlay()));
+       console.log(`Round ${i+1}: `, playOneRound(getPlayerChoice(), getComputerChoice()));
        console.log(`Current Score: ${playerScore} - ${computerScore}`);
     }
 
