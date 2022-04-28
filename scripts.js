@@ -1,3 +1,8 @@
+// Initialize scores outside of playRound function so they can be used outside of that function
+let playerScore = 0;
+let computerScore = 0;
+
+// Randomly choose rock, paper or scissors for computer
 function computerPlay() {
     const random = Math.floor(Math.random() * 3);
     const choices = ['rock', 'paper', 'scissors'];
@@ -5,6 +10,7 @@ function computerPlay() {
     return randChoice;
 }
 
+// Gets players choice of rock, paper or scissors
 function playerChoice() {
 
     let choice = prompt('Rock, Paper or Scissors?').toLowerCase();
@@ -16,54 +22,30 @@ function playerChoice() {
     return choice;   
 }
 
-let playerScore = 0;
-let computerScore = 0;
-
+// Plays 1 round of rock, paper, scissors and returns a win, lose or tie string and adds 1 point to either the player or computer's score there was a winner.
 function playRound(playerSelection, computerSelection) {
+
+    playerSelection = playerSelection[0].toUpperCase() + playerSelection.slice(1);
+    computerSelection = computerSelection[0].toUpperCase() + computerSelection.slice(1);
     
-    if (playerSelection === 'rock') {
-        if (computerSelection === 'paper') {
-            computerScore++;
-            return playerScore, computerScore, "You Lose! Paper beats Rock";
-        }
-        if (computerSelection === 'scissors') {
-            playerScore++;
-            return playerScore, computerScore,"You Win! Rock beats Scissors";
-        }
-        if (computerSelection === 'rock') {
-            return playerScore, computerScore,'Tie! You both chose Rock.';
-        }
+    if (playerSelection === computerSelection) {
+        return `Tie! You both chose ${playerSelection}.`
     }
 
-    if (playerSelection === 'paper') {
-        if (computerSelection === 'paper') {
-            return playerScore, computerScore,'Tie! You both chose Paper';
-        }
-        if (computerSelection === 'scissors') {
-            computerScore++;
-            return playerScore, computerScore,'You lose! Scissors beats Paper';
-        }
-        if (computerSelection === 'rock') {
+    else if ((playerSelection === 'Rock' && computerSelection === "Scissors") ||
+        (playerSelection === 'Paper' && computerSelection === 'Rock') ||
+        (playerSelection === 'Scissors' && computerSelection === 'Paper')) {
             playerScore++;
-            return playerScore, computerScore,'You win! Paper beats Rock'
+            return `You Win! ${playerSelection} beats ${computerSelection}.`;
         }
-    }
 
-    if (playerSelection === 'scissors') {
-        if (computerSelection === 'paper') {
-            playerScore++;
-            return playerScore, computerScore,'You win! Scissors beats Paper';
-        }
-        if (computerSelection === 'scissors') {
-            return playerScore, computerScore,'Tie.  You both chose Scissors';
-        }
-        if (computerSelection === 'rock') {
-            computerScore++;
-            return playerScore, computerScore,'You lose.  Rock beats Scissors';
-        }
+    else {
+        computerScore++;
+        return `You Lose! ${computerSelection} beats ${playerSelection}.`;
     }
 }
 
+// Asks player how many rounds they would like to play, plays that many rounds and shows the score after each round
 function game() {
     let rounds = +prompt('How many rounds would you like to play?');
 
@@ -85,4 +67,5 @@ function game() {
     }
 }
 
+// Runs the game function on page load
 game();
