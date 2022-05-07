@@ -25,6 +25,7 @@ function getPlayerChoice() {
 // Plays 1 round of rock, paper, scissors and returns a win, lose or tie string and adds 1 point to either the player or computer's score if there was a winner.
 function playOneRound(playerSelection, computerSelection) {
 
+    // Capitalizes the first letter of player and computer choices
     playerSelection = playerSelection[0].toUpperCase() + playerSelection.slice(1);
     computerSelection = computerSelection[0].toUpperCase() + computerSelection.slice(1);
     
@@ -46,26 +47,39 @@ function playOneRound(playerSelection, computerSelection) {
 }
 
 // Asks player how many rounds they would like to play, plays that many rounds and shows the score after each round
-function game() {
-    let rounds = +prompt('How many rounds would you like to play?');
+function playFullGame() {
+    // Only let player enter number of rounds between 1 and 20
+    let rounds = +prompt('How many rounds would you like to play?', 5);
+    while (rounds < 1 || rounds > 20) {
+        rounds = +prompt('Ok wiseguy, enter a number of rounds between 1 and 20', 5);
+    }
 
     for (let i = 0; i < rounds; i++) {
        console.log(`Round ${i+1}: `, playOneRound(getPlayerChoice(), getComputerChoice()));
-       console.log(`Current Score: ${playerScore} - ${computerScore}`);
+       console.log(`Current Score: ${playerScore} - ${computerScore}\n`);
     }
 
-    console.log(`After ${rounds} rounds we have a winner!  Or do we...`);
+    // if score is tied after all rounds, play tie breaker rounds until there is a winner
+    if (playerScore === computerScore) {
+        console.log(`After ${+rounds} rounds, the score is tied! Time for some tie breaker rounds!\n`);
+        while (playerScore === computerScore) {
+            rounds++;
+            console.log(`Tie Breaker! Round ${rounds}: `, playOneRound(getPlayerChoice(), getComputerChoice()));
+            console.log(`Current Score: ${playerScore} - ${computerScore}\n`);
+        }
+    }
+    console.log(`After ${rounds} rounds we have a winner!`);
 
     if (playerScore > computerScore) {
-        console.log(`Player wins ${playerScore} to ${computerScore}!`);
-    }
-    else if (computerScore > playerScore) {
-        console.log(`Computer wins ${computerScore} to ${playerScore}!`);
+        console.log(`Player wins ${playerScore} to ${computerScore}!\n`);
     }
     else {
-        console.log(`It's a tie!  At least you didn't lose :)`);
+        console.log(`Computer wins ${computerScore} to ${playerScore}!\n`);
     }
+    
 }
 
+//testing
+
 // Runs the game function on page load
-game();
+playFullGame();
