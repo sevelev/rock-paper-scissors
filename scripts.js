@@ -71,3 +71,5 @@ function playOneRound(playerSelection, computerSelection) {
         computerChoice.textContent = 'Computer.';
     }
 }
+
+//testing
